@@ -27,9 +27,6 @@ OE_HOME_EXT="/$OE_USER/src/${OE_USER}-server"
 #Set to true if you want to install it, false if you don't need it or have it already installed.
 INSTALL_WKHTMLTOPDF="True"
 #Set the default Odoo port (you still have to use -c /etc/odoo-server.conf for example to use this.)
-
-#OE_PORT="8069"
-
 PROD_OE_PORT="8070"
 TEST_OE_PORT="8069"
 
@@ -42,11 +39,9 @@ IS_ENTERPRISE="False"
 #set the superadmin password
 OE_SUPERADMIN="admin"
 
-# sita trinti
-OE_CONFIG="${OE_USER}-server"
-
-OE_PROD_CONFIG="${OE_CONFIG}-${OE_USER}-prod-server"
-OE_TEST_CONFIG="${OE_CONFIG}-${OE_USER}-test-server"
+#set OE names
+OE_PROD_CONFIG="${OE_USER}-prod-server"
+OE_TEST_CONFIG="${OE_USER}-test-server"
 
 ##
 ###  WKHTMLTOPDF download links
@@ -189,7 +184,7 @@ sudo su root -c "printf 'logfile = /var/log/${OE_USER}/${OE_PROD_CONFIG}.log\n' 
 if [ $IS_ENTERPRISE = "True" ]; then
     sudo su root -c "printf 'addons_path=${OE_HOME}/src/enterprise/addons,${OE_HOME_EXT}/addons\n' >> /etc/${OE_PROD_CONFIG}.conf"
 else
-    sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons,${OE_HOME}/custom/addons\n' >> /etc/${OE_PROD_CONFIG}.conf"
+    sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons,' >> /etc/${OE_PROD_CONFIG}.conf"
 fi
 sudo chown $OE_USER:$OE_USER /etc/${OE_PROD_CONFIG}.conf
 sudo chmod 640 /etc/${OE_PROD_CONFIG}.conf
@@ -210,10 +205,14 @@ sudo su root -c "printf 'logfile = /var/log/${OE_USER}/${OE_TEST_CONFIG}.log\n' 
 if [ $IS_ENTERPRISE = "True" ]; then
     sudo su root -c "printf 'addons_path=${OE_HOME}/enterprise/addons,${OE_HOME_EXT}/addons\n' >> /etc/${OE_TEST_CONFIG}.conf"
 else
-    sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons,${OE_HOME}/custom/addons\n' >> /etc/${OE_TEST_CONFIG}.conf"
+    sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons\n' >> /etc/${OE_TEST_CONFIG}.conf"
 fi
 sudo chown $OE_USER:$OE_USER /etc/${OE_TEST_CONFIG}.conf
 sudo chmod 640 /etc/${OE_TEST_CONFIG}.conf
+
+
+
+# reikia perdeti i kita papke
 
 echo -e "* Create startup file"
 sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/start.sh"
