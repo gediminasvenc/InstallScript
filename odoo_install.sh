@@ -163,6 +163,7 @@ fi
 
 echo -e "\n---- Create scripts directory ----"
 sudo su $OE_USER -c "mkdir $OE_HOME/scripts"
+# sudo chown $OE_USER:$OE_USER $OE_HOME/scripts
 
 echo -e "\n---- Create PROD OE cutom modules directory ----"
 sudo su $OE_USER -c "mkdir $OE_HOME/$PROD_OE_NAME"
@@ -187,7 +188,7 @@ sudo su root -c "printf 'logfile = /var/log/${OE_USER}/${OE_PROD_CONFIG}.log\n' 
 if [ $IS_ENTERPRISE = "True" ]; then
     sudo su root -c "printf 'addons_path=${OE_HOME}/src/enterprise/addons,${OE_HOME_EXT}/addons\n' >> /etc/${OE_PROD_CONFIG}.conf"
 else
-    sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons,' >> /etc/${OE_PROD_CONFIG}.conf"
+    sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons' >> /etc/${OE_PROD_CONFIG}.conf"
 fi
 sudo chown $OE_USER:$OE_USER /etc/${OE_PROD_CONFIG}.conf
 sudo chmod 640 /etc/${OE_PROD_CONFIG}.conf
