@@ -45,8 +45,8 @@ OE_SUPERADMIN="admin"
 # sita trinti
 OE_CONFIG="${OE_USER}-server"
 
-OE_PROD_CONFIG=OE_CONFIG="${OE_USER}-prod-server"
-OE_TEST_CONFIG=OE_CONFIG="${OE_USER}-test-server"
+OE_PROD_CONFIG="${OE_CONFIG}-${OE_USER}-prod-server"
+OE_TEST_CONFIG="${OE_CONFIG}-${OE_USER}-test-server"
 
 ##
 ###  WKHTMLTOPDF download links
