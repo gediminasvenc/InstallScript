@@ -27,8 +27,8 @@ OE_HOME_EXT="/$OE_USER/src/${OE_USER}-server"
 #Set to true if you want to install it, false if you don't need it or have it already installed.
 INSTALL_WKHTMLTOPDF="True"
 #Set the default Odoo port (you still have to use -c /etc/odoo-server.conf for example to use this.)
-PROD_OE_PORT="8070"
-TEST_OE_PORT="8069"
+PROD_OE_PORT="8069"
+TEST_OE_PORT="8070"
 
 
 #Choose the Odoo version which you want to install. For example: 11.0, 10.0, 9.0 or saas-18. When using 'master' the master version will be installed.
