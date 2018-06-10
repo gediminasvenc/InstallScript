@@ -157,9 +157,12 @@ if [ $IS_ENTERPRISE = "True" ]; then
     sudo npm install -g less-plugin-clean-css
 fi
 
-echo -e "\n---- Create custom module directory ----"
+# echo -e "\n---- Create custom module directory ----"
 # sudo su $OE_USER -c "mkdir $OE_HOME/custom"
 # sudo su $OE_USER -c "mkdir $OE_HOME/custom/addons"
+
+echo -e "\n---- Create scripts directory ----"
+sudo su $OE_USER -c "mkdir $OE_HOME/scripts"
 
 echo -e "\n---- Create PROD OE cutom modules directory ----"
 sudo su $OE_USER -c "mkdir $OE_HOME/$PROD_OE_NAME"
@@ -190,9 +193,9 @@ sudo chown $OE_USER:$OE_USER /etc/${OE_PROD_CONFIG}.conf
 sudo chmod 640 /etc/${OE_PROD_CONFIG}.conf
 
 echo -e "* Create startup file"
-sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/start.sh"
-sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/${OE_PROD_CONFIG}.conf' >> $OE_HOME_EXT/prod_start.sh"
-sudo chmod 755 $OE_HOME_EXT/prod_start.sh
+sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/scripts/prod_start.sh"
+sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/${OE_PROD_CONFIG}.conf' >> $OE_HOME_EXT/scripts/prod_start.sh"
+sudo chmod 755 $OE_HOME_EXT/scripts/prod_start.sh
 
 echo -e "* Create TEST server config file"
 
@@ -215,9 +218,9 @@ sudo chmod 640 /etc/${OE_TEST_CONFIG}.conf
 # reikia perdeti i kita papke
 
 echo -e "* Create startup file"
-sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/start.sh"
-sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/${OE_TEST_CONFIG}.conf' >> $OE_HOME_EXT/test_start.sh"
-sudo chmod 755 $OE_HOME_EXT/test_start.sh
+sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/scripts/test_start.sh"
+sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/${OE_TEST_CONFIG}.conf' >> $OE_HOME_EXT/scripts/test_start.sh"
+sudo chmod 755 $OE_HOME_EXT/scripts/test_start.sh
 
 #--------------------------------------------------
 # Adding ODOO as a deamon (initscript)
@@ -317,10 +320,10 @@ echo "-----------------------------------------------------------"
 # TEST OE
 
 echo -e "* Create TEST init file"
-cat <<EOF > ~/$TEST_OE_CONFIG
+cat <<EOF > ~/$OE_TEST_CONFIG
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides: $TEST_OE_CONFIG
+# Provides: $OE_TEST_CONFIG
 # Required-Start: \$remote_fs \$syslog
 # Required-Stop: \$remote_fs \$syslog
 # Should-Start: \$network
@@ -332,12 +335,12 @@ cat <<EOF > ~/$TEST_OE_CONFIG
 ### END INIT INFO
 PATH=/bin:/sbin:/usr/bin
 DAEMON=$OE_HOME_EXT/odoo-bin
-NAME=$TEST_OE_CONFIG
-DESC=$TEST_OE_CONFIG
+NAME=$OE_TEST_CONFIG
+DESC=$OE_TEST_CONFIG
 # Specify the user name (Default: odoo).
 USER=$OE_USER
 # Specify an alternate config file (Default: /etc/openerp-server.conf).
-CONFIGFILE="/etc/${TEST_OE_CONFIG}.conf"
+CONFIGFILE="/etc/${OE_TEST_CONFIG}.conf"
 # pidfile
 PIDFILE=/var/run/\${NAME}.pid
 # Additional options that are passed to the Daemon.
@@ -384,25 +387,25 @@ exit 0
 EOF
 
 echo -e "* Security Init File"
-sudo mv ~/$TEST_OE_CONFIG /etc/init.d/$TEST_OE_CONFIG
-sudo chmod 755 /etc/init.d/$TEST_OE_CONFIG
-sudo chown root: /etc/init.d/$TEST_OE_CONFIG
+sudo mv ~/$OE_TEST_CONFIG /etc/init.d/$OE_TEST_CONFIG
+sudo chmod 755 /etc/init.d/$OE_TEST_CONFIG
+sudo chown root: /etc/init.d/$OE_TEST_CONFIG
 
 echo -e "* Start ODOO on Startup"
-sudo update-rc.d $TEST_OE_CONFIG defaults
+sudo update-rc.d $OE_TEST_CONFIG defaults
 
 echo -e "* Starting Test Odoo Service"
-sudo su root -c "/etc/init.d/$TEST_OE_NAME start"
+sudo su root -c "/etc/init.d/$OE_TEST_CONFIG start"
 echo "-----------------------------------------------------------"
 echo "Done! The Odoo server is up and running. Specifications:"
 echo "Port: $TEST_OE_PORT"
 echo "User service: $OE_USER"
 echo "User PostgreSQL: $OE_USER"
 echo "Code location: $OE_USER"
-echo "Addons folder: $OE_USER/$TEST_OE_CONFIG"
-echo "Start Odoo service: sudo service $TEST_OE_CONFIG start"
-echo "Stop Odoo service: sudo service $TEST_OE_CONFIG stop"
-echo "Restart Odoo service: sudo service $TEST_OE_CONFIG restart"
+echo "Addons folder: $OE_USER/$OE_TEST_CONFIG"
+echo "Start Odoo service: sudo service $OE_TEST_CONFIG start"
+echo "Stop Odoo service: sudo service $OE_TEST_CONFIG stop"
+echo "Restart Odoo service: sudo service $OE_TEST_CONFIG restart"
 echo "-----------------------------------------------------------"
 
 
