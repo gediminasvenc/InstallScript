@@ -317,10 +317,10 @@ echo "-----------------------------------------------------------"
 # TEST OE
 
 echo -e "* Create TEST init file"
-cat <<EOF > ~/$TEST_OE_NAME
+cat <<EOF > ~/$TEST_OE_CONFIG
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides: $TEST_OE_NAME
+# Provides: $TEST_OE_CONFIG
 # Required-Start: \$remote_fs \$syslog
 # Required-Stop: \$remote_fs \$syslog
 # Should-Start: \$network
@@ -332,12 +332,12 @@ cat <<EOF > ~/$TEST_OE_NAME
 ### END INIT INFO
 PATH=/bin:/sbin:/usr/bin
 DAEMON=$OE_HOME_EXT/odoo-bin
-NAME=$TEST_OE_NAME
-DESC=$TEST_OE_NAME
+NAME=$TEST_OE_CONFIG
+DESC=$TEST_OE_CONFIG
 # Specify the user name (Default: odoo).
 USER=$OE_USER
 # Specify an alternate config file (Default: /etc/openerp-server.conf).
-CONFIGFILE="/etc/${TEST_OE_NAME}.conf"
+CONFIGFILE="/etc/${TEST_OE_CONFIG}.conf"
 # pidfile
 PIDFILE=/var/run/\${NAME}.pid
 # Additional options that are passed to the Daemon.
@@ -384,12 +384,12 @@ exit 0
 EOF
 
 echo -e "* Security Init File"
-sudo mv ~/$TEST_OE_NAME /etc/init.d/$TEST_OE_NAME
-sudo chmod 755 /etc/init.d/$TEST_OE_NAME
-sudo chown root: /etc/init.d/$TEST_OE_NAME
+sudo mv ~/$TEST_OE_CONFIG /etc/init.d/$TEST_OE_CONFIG
+sudo chmod 755 /etc/init.d/$TEST_OE_CONFIG
+sudo chown root: /etc/init.d/$TEST_OE_CONFIG
 
 echo -e "* Start ODOO on Startup"
-sudo update-rc.d $TEST_OE_NAME defaults
+sudo update-rc.d $TEST_OE_CONFIG defaults
 
 echo -e "* Starting Test Odoo Service"
 sudo su root -c "/etc/init.d/$TEST_OE_NAME start"
@@ -399,10 +399,10 @@ echo "Port: $TEST_OE_PORT"
 echo "User service: $OE_USER"
 echo "User PostgreSQL: $OE_USER"
 echo "Code location: $OE_USER"
-echo "Addons folder: $OE_USER/$TEST_OE_NAME"
-echo "Start Odoo service: sudo service $TEST_OE_NAME start"
-echo "Stop Odoo service: sudo service $TEST_OE_NAME stop"
-echo "Restart Odoo service: sudo service $TEST_OE_NAME restart"
+echo "Addons folder: $OE_USER/$TEST_OE_CONFIG"
+echo "Start Odoo service: sudo service $TEST_OE_CONFIG start"
+echo "Stop Odoo service: sudo service $TEST_OE_CONFIG stop"
+echo "Restart Odoo service: sudo service $TEST_OE_CONFIG restart"
 echo "-----------------------------------------------------------"
 
 
