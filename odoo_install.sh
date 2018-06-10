@@ -16,8 +16,8 @@
 
 ##fixed parameters
 
-PROD_OE_NAME='prod_odoo'
-TEST_OE_NAME='test_odoo'
+PROD_OE_NAME="prod_odoo"
+TEST_OE_NAME="test_odoo"
 
 #odoo
 OE_USER="odoo"
