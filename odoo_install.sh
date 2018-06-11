@@ -136,9 +136,6 @@ if [ $IS_ENTERPRISE = "True" ]; then
     # Odoo Enterprise install!
     echo -e "\n--- Create symlink for node"
     sudo ln -s /usr/bin/nodejs /usr/bin/node
-    sudo su $OE_USER -c "mkdir $OE_HOME/src"
-    sudo su $OE_USER -c "mkdir $OE_HOME/src/enterprise"
-    sudo su $OE_USER -c "mkdir $OE_HOME/src/enterprise/addons"
 
     GITHUB_RESPONSE=$(sudo git clone --depth 1 --branch $OE_VERSION https://www.github.com/odoo/enterprise "$OE_HOME/src/enterprise/addons" 2>&1)
     while [[ $GITHUB_RESPONSE == *"Authentication"* ]]; do
@@ -211,7 +208,7 @@ sudo su root -c "printf 'admin_passwd = ${OE_SUPERADMIN}\n' >> /etc/${OE_TEST_CO
 sudo su root -c "printf 'xmlrpc_port = ${TEST_OE_PORT}\n' >> /etc/${OE_TEST_CONFIG}.conf"
 sudo su root -c "printf 'logfile = /var/log/${OE_USER}/${OE_TEST_CONFIG}.log\n' >> /etc/${OE_TEST_CONFIG}.conf"
 if [ $IS_ENTERPRISE = "True" ]; then
-    sudo su root -c "printf 'addons_path=${OE_HOME}/enterprise/addons,${OE_HOME_EXT}/addons\n' >> /etc/${OE_TEST_CONFIG}.conf"
+    sudo su root -c "printf 'addons_path=${OE_HOME}/src/enterprise/addons,${OE_HOME_EXT}/addons\n' >> /etc/${OE_TEST_CONFIG}.conf"
 else
     sudo su root -c "printf 'addons_path=${OE_HOME_EXT}/addons\n' >> /etc/${OE_TEST_CONFIG}.conf"
 fi
