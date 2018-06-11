@@ -136,6 +136,7 @@ if [ $IS_ENTERPRISE = "True" ]; then
     # Odoo Enterprise install!
     echo -e "\n--- Create symlink for node"
     sudo ln -s /usr/bin/nodejs /usr/bin/node
+    sudo su $OE_USER -c "mkdir $OE_HOME/src"
     sudo su $OE_USER -c "mkdir $OE_HOME/src/enterprise"
     sudo su $OE_USER -c "mkdir $OE_HOME/src/enterprise/addons"
 
