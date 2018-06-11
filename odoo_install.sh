@@ -23,6 +23,7 @@ TEST_OE_NAME="test_odoo"
 OE_USER="odoo"
 OE_HOME="/$OE_USER"
 OE_HOME_EXT="/$OE_USER/src/${OE_USER}-server"
+#/odoo/src/odoo-server
 #The default port where this Odoo instance will run under (provided you use the command -c in the terminal)
 #Set to true if you want to install it, false if you don't need it or have it already installed.
 INSTALL_WKHTMLTOPDF="True"
@@ -194,9 +195,11 @@ sudo chown $OE_USER:$OE_USER /etc/${OE_PROD_CONFIG}.conf
 sudo chmod 640 /etc/${OE_PROD_CONFIG}.conf
 
 echo -e "* Create startup file"
-sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/scripts/prod_start.sh"
-sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/${OE_PROD_CONFIG}.conf' >> $OE_HOME_EXT/scripts/prod_start.sh"
-sudo chmod 755 $OE_HOME_EXT/scripts/prod_start.sh
+
+sudo su root -c "echo '#!/bin/sh' >> $OE_HOME/scripts/prod_start.sh"
+sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME/openerp-server --config=/etc/${OE_PROD_CONFIG}.conf' >> $OE_HOME/scripts/prod_start.sh"
+
+sudo chmod 755 $OE_HOME/scripts/prod_start.sh
 
 echo -e "* Create TEST server config file"
 
@@ -214,14 +217,12 @@ fi
 sudo chown $OE_USER:$OE_USER /etc/${OE_TEST_CONFIG}.conf
 sudo chmod 640 /etc/${OE_TEST_CONFIG}.conf
 
-
-
 # reikia perdeti i kita papke
 
 echo -e "* Create startup file"
-sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/scripts/test_start.sh"
-sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/${OE_TEST_CONFIG}.conf' >> $OE_HOME_EXT/scripts/test_start.sh"
-sudo chmod 755 $OE_HOME_EXT/scripts/test_start.sh
+sudo su root -c "echo '#!/bin/sh' >> $OE_HOME/scripts/test_start.sh"
+sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME/openerp-server --config=/etc/${OE_TEST_CONFIG}.conf' >> $OE_HOME/scripts/test_start.sh"
+sudo chmod 755 $OE_HOME/scripts/test_start.sh
 
 #--------------------------------------------------
 # Adding ODOO as a deamon (initscript)
